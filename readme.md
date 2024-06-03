@@ -4,7 +4,7 @@
 <h4 align="center">SynthBA: Reliable Brain Age Estimation Across Multiple MRI Sequences and Resolutions</h4>
 
 <p align="center">
-  <a href="http://arxiv.org/abs/2405.03328">Arxiv</a> •
+  <a href="">Arxiv</a> •
   <a href="#usage">Usage</a> •
   <a href="#installation">Installation</a> •
   <a href="#citing">Cite</a>
