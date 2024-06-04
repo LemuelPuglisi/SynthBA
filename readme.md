@@ -4,7 +4,7 @@
 <h4 align="center">SynthBA: Reliable Brain Age Estimation Across Multiple MRI Sequences and Resolutions</h4>
 
 <p align="center">
-  <a href="">Arxiv</a> •
+  <a href="https://arxiv.org/abs/2406.00365">Arxiv</a> •
   <a href="#usage">Usage</a> •
   <a href="#installation">Installation</a> •
   <a href="#citing">Cite</a>
@@ -61,8 +61,17 @@ docker run --rm synthba --help
 
 ## Citing
 
+Cite the preprint:
+
 ```
-Coming soon.
+@misc{puglisi2024synthba,
+      title={SynthBA: Reliable Brain Age Estimation Across Multiple MRI Sequences and Resolutions}, 
+      author={Lemuel Puglisi and Alessia Rondinella and Linda De Meo and Francesco Guarnera and Sebastiano Battiato and Daniele Ravì},
+      year={2024},
+      eprint={2406.00365},
+      archivePrefix={arXiv},
+      primaryClass={eess.IV}
+}
 ```
 
 
