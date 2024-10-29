@@ -35,8 +35,8 @@ Configure the batch size according to your available RAM. Templates are currentl
 
 | MODEL | Description | TEMPLATE | Description                   |
 | ------- | ----------- | ---------- | ----------------------------- |
-| `g`     | SynthBA-u   | `T1w_1mm`  | T1w 1mm brain MNI152 template |
-| `u`     | SynthBA-g   | `T1w_2mm`  | T1w 2mm brain MNI152 template |
+| `g`     | SynthBA-g   | `T1w_1mm`  | T1w 1mm brain MNI152 template |
+| `u`     | SynthBA-u   | `T1w_2mm`  | T1w 2mm brain MNI152 template |
 |         |             | `T2w_1mm`  | T2w 1mm brain MNI152 template |
 
 The output folder will contain both the predicted brain age for each input (predictions.csv) and the preprocessed scans (in preprocessed).
