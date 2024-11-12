@@ -10,6 +10,10 @@
   <a href="#citing">Cite</a>
 </p>
 
+
+> [!NOTE]  
+> SynthBA has been peer-reviewed and accepted at IEEE MetroXRAINE 2024.
+
 ## Short description
 
 SynthBA (Synthetic Brain Age) is a deep-learning model able to predict the biological age of the brain (referred to as **brain age**) through brain MRIs of arbitrary contrast and resolution. It follows the idea of using domain-randomization from the seminal work of [SynthSeg](https://github.com/BBillot/SynthSeg).
@@ -18,13 +22,20 @@ SynthBA (Synthetic Brain Age) is a deep-learning model able to predict the biolo
 Running SynthBA requires `docker` (see the [Docker installation page](https://docs.docker.com/engine/install/)) and nothing else. Once `docker` is installed, you can run the latest version of SynthBA (see [DockerHub](https://hub.docker.com/repository/docker/lemuelpuglisi/synthba/general)) in one command: 
 
 ```bash
-docker run --rm lemuelpuglisi/synthba:latest --help
+./synthba --help
 ```
 
 Place your MRIs (nifti format) in a folder (`/path/to/inputs`) and create a folder where to store the outputs (`/path/to/outputs`). Then run:
 
+```
+./synthba /path/to/inputs /path/to/outputs \
+  -m <MODEL> -b <BATCHSIZE> -t <TEMPLATE>
+```
+
+Or directly using Docker:
+
 ```bash
-docker run --rm\
+docker run --rm \
     -v /path/to/inputs:/home/inputs \
     -v /path/to/outputs:/home/outputs \
     lemuelpuglisi/synthba:latest \

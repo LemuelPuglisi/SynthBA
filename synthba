@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# Check if the Docker image exists locally
+IMAGE="lemuelpuglisi/synthba:latest"
+if ! docker image inspect "$IMAGE" > /dev/null 2>&1; then
+    echo "Installing SynthBA Docker container..."
+    docker pull "$IMAGE"
+fi
+
+
+HELP_MESSAGE="usage: synthba.py [-h] -i I -o O -c C [-b B] [-m M] [-t T]
+
+options:
+  -h, --help  show this help message and exit
+  -i I        Input folder with nifti files.
+  -o O        Output folder where to store the predictions and (optionally)
+              intermediate files
+  -c C        SynthBA checkpoints directory
+  -b B        Batch size
+  -m M        SynthBA model (available configurations = [u, g])
+  -t T        Template for registration (available templates = [T1w_1mm,
+              T1w_2mm, T2w_1mm])"
+
+
+# Check if the first argument is --help, then show help and exit
+if [ "$1" == "--help" ]; then
+    echo "$HELP_MESSAGE"
+    exit 0
+fi
+
+# Check if the number of arguments is correct
+if [ "$#" -lt 2 ]; then
+    echo "Usage: $0 <input_path> <output_path> [-m <model>] [-b <batchsize>] [-t <template>]"
+    exit 1
+fi
+
+# Assign arguments to variables
+INPUT_PATH=$1
+OUTPUT_PATH=$2
+
+# Default values for optional arguments
+MODEL="u"
+BATCHSIZE="1"
+TEMPLATE="T1w_1mm"
+
+# Shift past the first two arguments (input and output)
+shift 2
+
+# Parse the optional arguments
+while getopts "m:b:t:" opt; do
+    case $opt in
+        m) MODEL=$OPTARG ;;
+        b) BATCHSIZE=$OPTARG ;;
+        t) TEMPLATE=$OPTARG ;;
+        *) echo "Usage: $0 <input_path> <output_path> [-m <model>] [-b <batchsize>] [-t <template>]"
+           exit 1 ;;
+    esac
+done
+
+echo "$MODEL"
+
+# Run the Docker command with the specified arguments
+docker run --rm \
+    -v "$INPUT_PATH":/home/inputs \
+    -v "$OUTPUT_PATH":/home/outputs \
+    lemuelpuglisi/synthba:latest \
+    -m "$MODEL" -b "$BATCHSIZE" -t "$TEMPLATE"
