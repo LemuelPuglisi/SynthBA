@@ -14,6 +14,14 @@
 > [!NOTE]  
 > SynthBA has been peer-reviewed and accepted at IEEE MetroXRAINE 2024.
 
+
+**NEWS**
+* 🆕 Added support for providing inputs via a text file in non-Docker mode  
+* 🆕 Added the `--skip-prep` flag to allow skipping preprocessing  
+* 🆕 SynthBA is now available on [DockerHub](https://hub.docker.com/repository/docker/lemuelpuglisi/synthba/general)  
+
+
+
 ## Short description
 
 SynthBA (Synthetic Brain Age) is a deep-learning model able to predict the biological age of the brain (referred to as **brain age**) through brain MRIs of arbitrary contrast and resolution. It follows the idea of using domain-randomization from the seminal work of [SynthSeg](https://github.com/BBillot/SynthSeg).

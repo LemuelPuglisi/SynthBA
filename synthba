@@ -7,20 +7,19 @@ if ! docker image inspect "$IMAGE" > /dev/null 2>&1; then
     docker pull "$IMAGE"
 fi
 
-
-HELP_MESSAGE="usage: synthba.py [-h] -i I -o O -c C [-b B] [-m M] [-t T]
+HELP_MESSAGE="usage: synthba.py [-h] -i I -o O -c C [-b B] [-m M] [-t T] [--skip-prep]
 
 options:
-  -h, --help  show this help message and exit
-  -i I        Input folder with nifti files.
-  -o O        Output folder where to store the predictions and (optionally)
-              intermediate files
-  -c C        SynthBA checkpoints directory
-  -b B        Batch size
-  -m M        SynthBA model (available configurations = [u, g])
-  -t T        Template for registration (available templates = [T1w_1mm,
-              T1w_2mm, T2w_1mm])"
-
+  -h, --help     show this help message and exit
+  -i I           Input folder with nifti files (absolute path).
+  -o O           Output folder where to store the predictions and (optionally)
+                 intermediate files (absolute path).
+  -c C           SynthBA checkpoints directory
+  -b B           Batch size
+  -m M           SynthBA model (available configurations = [u, g])
+  -t T           Template for registration (available templates = [T1w_1mm,
+                 T1w_2mm, T2w_1mm])
+  --skip-prep    Skip preprocessing steps"
 
 # Check if the first argument is --help, then show help and exit
 if [ "$1" == "--help" ]; then
@@ -30,38 +29,52 @@ fi
 
 # Check if the number of arguments is correct
 if [ "$#" -lt 2 ]; then
-    echo "Usage: $0 <input_path> <output_path> [-m <model>] [-b <batchsize>] [-t <template>]"
+    echo "Usage: $0 <input_path> <output_path> [-m <model>] [-b <batchsize>] [-t <template>] [--skip-prep]"
     exit 1
 fi
 
-# Assign arguments to variables
-INPUT_PATH=$1
-OUTPUT_PATH=$2
+# Convert input and output paths to absolute paths
+INPUT_PATH=$(realpath "$1")
+OUTPUT_PATH=$(realpath "$2")
 
 # Default values for optional arguments
-MODEL="u"
+MODEL="g"
 BATCHSIZE="1"
 TEMPLATE="T1w_1mm"
+SKIP_PREP=""
 
 # Shift past the first two arguments (input and output)
 shift 2
 
 # Parse the optional arguments
-while getopts "m:b:t:" opt; do
-    case $opt in
-        m) MODEL=$OPTARG ;;
-        b) BATCHSIZE=$OPTARG ;;
-        t) TEMPLATE=$OPTARG ;;
-        *) echo "Usage: $0 <input_path> <output_path> [-m <model>] [-b <batchsize>] [-t <template>]"
-           exit 1 ;;
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        -m)
+            MODEL=$2
+            shift 2
+            ;;
+        -b)
+            BATCHSIZE=$2
+            shift 2
+            ;;
+        -t)
+            TEMPLATE=$2
+            shift 2
+            ;;
+        --skip-prep)
+            SKIP_PREP="--skip-prep"
+            shift
+            ;;
+        *)
+            echo "Usage: $0 <input_path> <output_path> [-m <model>] [-b <batchsize>] [-t <template>] [--skip-prep]"
+            exit 1
+            ;;
     esac
 done
-
-echo "$MODEL"
 
 # Run the Docker command with the specified arguments
 docker run --rm \
     -v "$INPUT_PATH":/home/inputs \
     -v "$OUTPUT_PATH":/home/outputs \
     lemuelpuglisi/synthba:latest \
-    -m "$MODEL" -b "$BATCHSIZE" -t "$TEMPLATE"
+    -m "$MODEL" -b "$BATCHSIZE" -t "$TEMPLATE" $SKIP_PREP
