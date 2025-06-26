@@ -7,13 +7,12 @@ if ! docker image inspect "$IMAGE" > /dev/null 2>&1; then
     docker pull "$IMAGE"
 fi
 
-HELP_MESSAGE="usage: synthba.py [-h] -i I -o O -c C [-b B] [-m M] [-t T] [--skip-prep]
+HELP_MESSAGE="usage: synthba.py [-h] <I> <O> -c C [-b B] [-m M] [-t T] [--skip-prep]
 
 options:
   -h, --help     show this help message and exit
-  -i I           Input folder with nifti files (absolute path).
-  -o O           Output folder where to store the predictions and (optionally)
-                 intermediate files (absolute path).
+  <I>            Input folder with nifti files (absolute path).
+  <O>            Output folder where to store the predictions and (optionally) intermediate files (absolute path).
   -c C           SynthBA checkpoints directory
   -b B           Batch size
   -m M           SynthBA model (available configurations = [u, g])
