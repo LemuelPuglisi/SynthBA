@@ -8,6 +8,7 @@ from monai.data import Dataset
 from monai.networks.nets.densenet import DenseNet201
 from nibabel.nifti1 import Nifti1Image
 from nibabel.nifti2 import Nifti2Image
+from huggingface_hub import hf_hub_download
 
 
 
@@ -20,8 +21,17 @@ class SynthBA:
         self,
         device: str,
         checkpoint: Optional[str] = None,
+        model_type: str = 'g'
     ):
+        if checkpoint is None and model_type not in ['u', 'g']:
+            raise Exception('SynthBA `model_type` should be either `u` or `g`')
+        
         self.device = device
+        self.hf_fname = f'synthba-{model_type}.pth'
+
+        if  checkpoint is None:
+            checkpoint = hf_hub_download(repo_id='lemuelpuglisi/synthba', filename=self.hf_fname)
+
         checkpoint = torch.load(checkpoint, map_location=device)
         self.model = DenseNet201(3, 1, 1, dropout_prob=0)
         self.model.load_state_dict(checkpoint)

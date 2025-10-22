@@ -12,7 +12,7 @@ import nibabel as nib
 from nibabel.nifti1 import Nifti1Image
 from nibabel.nifti2 import Nifti2Image
 from nibabel.processing import resample_from_to
-
+from huggingface_hub import hf_hub_download
 
 
 class SkullStripping:
@@ -30,6 +30,9 @@ class SkullStripping:
         self.checkpoint = checkpoint
         self.device = device
 
+        if  checkpoint is None:
+            checkpoint = hf_hub_download(repo_id='lemuelpuglisi/synthba', filename='synthstrip.1.pt')
+        
         # Load the synthstrip model.
         self.model = StripModel().to(self.device)
         checkpoint = torch.load(checkpoint, map_location=self.device)
