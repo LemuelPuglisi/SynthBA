@@ -31,10 +31,11 @@ class SkullStripping:
         self.device = device
 
         # Load the synthstrip model.
-        self.model = StripModel().to(self.device).eval()
+        self.model = StripModel().to(self.device)
         checkpoint = torch.load(checkpoint, map_location=self.device)
         self.model.load_state_dict(checkpoint['model_state_dict'])
-
+        self.model = self.model.eval()
+        
 
     @torch.inference_mode()
     def run(self, scan: Union[Nifti1Image,Nifti2Image]) -> Tuple:
