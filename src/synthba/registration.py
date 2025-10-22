@@ -10,13 +10,14 @@ from nibabel.nifti2 import Nifti2Image
 def align(
     moving: Union[Nifti1Image,Nifti2Image], 
     fixed:  Union[Nifti1Image,Nifti2Image],
+    random_seed=0
 ):
     """
     This function uses ANTsPy to align two MRIs.
     """
     mov_ants = nifti_to_ants(moving)
     fix_ants = nifti_to_ants(fixed)
-    warped = ants.registration(fix_ants, mov_ants, type_of_transform='Affine')
+    warped = ants.registration(fix_ants, mov_ants, type_of_transform='Affine', random_seed=random_seed)
     warped = warped['warpedmovout']
     return to_nibabel(warped)
 
