@@ -209,8 +209,22 @@ If you use SynthBA for your research, please cite our paper:
   title={SynthBA: Reliable Brain Age Estimation Across Multiple MRI Sequences and Resolutions},
   author={Puglisi, Lemuel and Rondinella, Alessia and De Meo, Linda and Guarnera, Francesco and Battiato, Sebastiano and Rav{\`\i}, Daniele},
   booktitle={2024 IEEE International Conference on Metrology for eXtended Reality, Artificial Intelligence and Neural Engineering (MetroXRAINE)},
-  pages={555--560},
+  pages={559--564},
   year={2024},
   organization={IEEE}
+}}
+```
+
+And the follow-up paper demonstrating SynthBA's efficacy on low-field MRI scans:
+
+```bibtex
+@article{biondo2025brain,
+  title={Brain-age in ultra-low-field MRI: how well does it work?},
+  author={Biondo, Francesca and Bennallick, Carly and Martin, Sophie A and Puglisi, Lemuel and Booth, Thomas C and Wood, David A and Iglesias, Juan E and V{\'a}{\v{s}}a, Franti{\v{s}}ek and Cole, James H},
+  journal={medRxiv},
+  pages={2025--10},
+  year={2025},
+  publisher={Cold Spring Harbor Laboratory Press}
 }
 ```
+
