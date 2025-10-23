@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "synthba"
-version = "0.0.0"
+version = "0.1.0"
 authors = [ { name="Lemuel Puglisi", email="lemuelpuglisi001@gmail.com" } ]
 description = "SynthBA: Reliable Brain Age Estimation Across Multiple MRI Sequences and Resolutions"
 readme = "README.md"
