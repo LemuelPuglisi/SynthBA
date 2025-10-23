@@ -5,9 +5,18 @@
 <h1 align="center">SynthBA: Brain Age Estimation for Any Brain MRI</h1>
 
 <p align="center">
-<a href="https://arxiv.org/abs/2406.00365">Arxiv Paper</a> •
-<a href="https://huggingface.co/spaces/lemuelpuglisi/synthba">Hugging Face Demo</a> •
-<a href="https://huggingface.co/lemuelpuglisi/synthba">Hugging Face Models</a>
+  <a href="https://arxiv.org/abs/2406.00365">
+    <img alt="arXiv" src="https://img.shields.io/badge/arXiv-2406.00365-b31b1b.svg?style=flat-square">
+  </a>
+  <a href="https://huggingface.co/lemuelpuglisi/synthba">
+    <img alt="Hugging Face Models" src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-yellow?style=flat-square">
+  </a>
+  <a href="https://hub.docker.com/repository/docker/lemuelpuglisi/synthba/general">
+    <img alt="DockerHub" src="https://img.shields.io/badge/DockerHub-lemuelpuglisi%2Fsynthba-blue?logo=docker&style=flat-square">
+  </a>
+  <a href="https://pytorch.org/">
+    <img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-ee4c2c?logo=pytorch&logoColor=white&style=flat-square">
+  </a>
 </p>
 
 > [!NOTE]
