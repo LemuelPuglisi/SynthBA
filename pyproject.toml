@@ -14,7 +14,17 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-dependencies = []
+
+dependencies = [
+    "pandas==2.*",
+    "nibabel==5.*",
+    "torch==2.*",
+    "monai==1.*",
+    "huggingface-hub==0.*",
+    "scipy==1.*",
+    "numpy==1.*",
+    "antspyx==0.*"
+]
 
 [project.scripts]
 synthba = "synthba.cli:main"
