@@ -2,8 +2,7 @@
 <img src="assets/synthba-readme.png" alt="synthba" width="700"/>
 </p>
 
-<h1 align="center">SynthBA: Reliable Brain Age Estimation</h1>
-<h4 align="center">Brain Age Estimation Across Multiple MRI Sequences and Resolutions</h4>
+<h1 align="center">SynthBA: Brain Age Estimation for Any Brain MRI</h1>
 
 <p align="center">
 <a href="https://arxiv.org/abs/2406.00365">Arxiv Paper</a> •
