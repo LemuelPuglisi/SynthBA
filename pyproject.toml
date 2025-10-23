@@ -16,6 +16,9 @@ classifiers = [
 ]
 dependencies = []
 
+[project.scripts]
+synthba = "synthba.cli:main"
+
 [tool.setuptools]
 package-dir = {"" = "src"}
 
