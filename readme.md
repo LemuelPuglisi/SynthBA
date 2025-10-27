@@ -198,6 +198,11 @@ docker run --rm --gpus all \
       * **Cause:** You called `sba.run_multiple(..., preprocess=True)` without specifying the `preprocess_outdir` argument.
       * **Solution:** You must provide a path to a directory where the processed files can be saved, e.g., `sba.run_multiple(..., preprocess_outdir='./preprocessed')`. The command-line tool handles this automatically.
 
+4. **Error (PyTorch/macOS): `RuntimeError: 'aten::max_pool3d_with_indices' is not implemented for 'mps'`**
+
+    * **Cause:** This error occurs when running the model on the **MPS (Metal Performance Shaders) device** on macOS (Apple Silicon). The required operation was not fully implemented in the stable version of PyTorch.
+    * **Solution:** This bug has been addressed in PyTorch's development branch (see [here](https://github.com/pytorch/pytorch/pull/156467)) and will be included in the next stable release. To resolve it immediately, you must **install the PyTorch nightly build** from the PyTorch website. This will enable the missing MPS operation and allow the model to run on your Mac!
+
 ## 🙏 Credits
 
 SynthBA is built on top of several outstanding open-source projects:

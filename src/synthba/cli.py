@@ -17,7 +17,7 @@ import torch
 # --- Constants ---
 AVAILABLE_TEMPLATES = ['t1', 't2']
 AVAILABLE_MODELS = ['u', 'g']
-AVAILABLE_DEVICES = ['cuda', 'cpu']
+AVAILABLE_DEVICES = ['cuda', 'cpu', 'mps']
 NIFTI_EXTENSIONS = ('.nii', '.nii.gz')
 
 
@@ -167,6 +167,10 @@ def main():
     
     if device == 'cuda' and not torch.cuda.is_available():
         print(f"Warning: --device='cuda' was requested, but CUDA is not available. Falling back to 'cpu'.")
+        device = 'cpu'
+
+    if device == 'mps' and not torch.mps.is_available():
+        print(f"Warning: --device='mps' was requested, but MPS is not available. Falling back to 'cpu'.")
         device = 'cpu'
 
     # --- 2. Validate Inputs & Outputs ---
