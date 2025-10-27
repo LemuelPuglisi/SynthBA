@@ -1,5 +1,5 @@
 <p align="center">
-<img src="assets/synthba-readme.png" alt="synthba" width="700"/>
+<img src="assets/synthba-readme.gif" alt="synthba" width="700"/>
 </p>
 
 <h1 align="center">SynthBA: Brain Age Estimation for Any Brain MRI</h1>
