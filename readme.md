@@ -77,6 +77,8 @@ The tool will generate two main outputs in your specified output directory:
 1.  `synthba_predictions.csv`: A CSV file containing the paths to the processed scans and their predicted brain age.
 2.  `preprocessed/`: A new folder containing the preprocessed (skull-stripped and aligned) scans. This folder is *only* created if preprocessing is enabled (the default).
 
+When multiple input scans have the same filename, SynthBA automatically creates unique preprocessed filenames by adding the shortest distinguishing parent-folder prefix. For example, `/data/subject_a/visit_a/t1.nii.gz` and `/data/subject_b/visit_a/t1.nii.gz` are saved as `subject_a-visit_a-t1.nii.gz` and `subject_b-visit_a-t1.nii.gz`. This avoids overwriting files in BIDS-like datasets where many subjects share filenames such as `T1w.nii.gz`.
+
 ### 4. Command-Line Options
 
 Here is a full list of available options:
@@ -138,6 +140,8 @@ print(f"Predicted Brain Age: {brain_age:.2f} years")
 The `run_multiple()` method is designed for batch processing a list of *file paths*. It returns a `pandas.DataFrame`.
 
 **Note:** When `preprocess=True`, you **must** provide `preprocess_outdir` to specify where the processed scans should be saved.
+
+Preprocessed output filenames are generated from the shortest unique suffix of each input path. This means inputs with repeated basenames, such as `subject_a/visit_a/t1.nii.gz` and `subject_b/visit_a/t1.nii.gz`, are saved with readable unique names instead of overwriting each other.
 
 ```python
 scan_paths = [
@@ -241,4 +245,3 @@ And the follow-up paper demonstrating SynthBA's efficacy on low-field MRI scans:
   publisher={Cold Spring Harbor Laboratory Press}
 }
 ```
-

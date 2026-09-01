@@ -1,4 +1,6 @@
 import os
+import hashlib
+import re
 from typing import List, Optional, Union, Callable
 
 import pandas as pd
@@ -14,6 +16,58 @@ from huggingface_hub import hf_hub_download
 
 from .registration import align
 from .skull_stripping import SkullStripping
+
+
+def _split_nii_name(filename: str) -> tuple:
+    if filename.endswith('.nii.gz'):
+        return filename[:-7], '.nii.gz'
+    return os.path.splitext(filename)
+
+
+def _sanitize_path_component(component: str) -> str:
+    component = re.sub(r'[^A-Za-z0-9._-]+', '_', component).strip('._-')
+    return component or 'path'
+
+
+def _preprocessed_output_paths(input_list: List[str], preprocess_outdir: str) -> List[str]:
+    """
+    Build readable, unique output paths from the shortest distinguishing input suffix.
+
+    For example, subject_a/visit_a/t1.nii.gz and subject_b/visit_a/t1.nii.gz
+    become subject_a-visit_a-t1.nii.gz and subject_b-visit_a-t1.nii.gz.
+    """
+    if not input_list:
+        return []
+
+    path_parts = []
+    for input_path in input_list:
+        parts = [p for p in os.path.normpath(input_path).split(os.sep) if p]
+        path_parts.append(parts or [os.path.basename(input_path)])
+
+    max_depth = max(len(parts) for parts in path_parts)
+    output_names = None
+    for depth in range(1, max_depth + 1):
+        candidate_names = []
+        for parts in path_parts:
+            suffix_parts = parts[-depth:]
+            stem, suffix = _split_nii_name(suffix_parts[-1])
+            name_parts = suffix_parts[:-1] + [stem]
+            candidate_name = '-'.join(_sanitize_path_component(p) for p in name_parts) + suffix
+            candidate_names.append(candidate_name)
+
+        comparable_names = [name.lower() for name in candidate_names]
+        if len(comparable_names) == len(set(comparable_names)):
+            output_names = candidate_names
+            break
+
+    if output_names is None:
+        output_names = []
+        for index, (input_path, parts) in enumerate(zip(input_list, path_parts)):
+            stem, suffix = _split_nii_name(parts[-1])
+            digest = hashlib.sha1(f'{index}:{os.path.abspath(input_path)}'.encode()).hexdigest()[:8]
+            output_names.append(f'{_sanitize_path_component(stem)}-{digest}{suffix}')
+
+    return [os.path.join(preprocess_outdir, name) for name in output_names]
 
 
 class SynthBA:
@@ -134,8 +188,8 @@ class SynthBA:
 
         if preprocess:
             prep_input_list = [] 
-            for inp_path in input_list:
-                out_path = os.path.join(preprocess_outdir, os.path.basename(inp_path))
+            output_paths = _preprocessed_output_paths(input_list, preprocess_outdir)
+            for inp_path, out_path in zip(input_list, output_paths):
                 self._preprocess(nib.load(inp_path), mr_weighting).to_filename(out_path)
                 prep_input_list.append(out_path)
             input_list = prep_input_list
